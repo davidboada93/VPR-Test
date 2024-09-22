@@ -1,0 +1,37 @@
+<template>
+    <lightning-card title="Accounts" icon-name="standard:account">
+        <template if:true={accounts}>
+            <lightning-layout>
+                <lightning-layout-item padding="around-medium">
+                    <ul class="slds-list_dotted">
+                        <template for:each={accounts} for:item="account">
+                            <li key={account.Id}>
+                                <lightning-button variant="base" label={account.Name} 
+                                                  data-id={account.Id} 
+                                                  onclick={handleAccountClick} 
+                                                  class="slds-button slds-button_reset"></lightning-button>
+                            </li>
+                        </template>
+                    </ul>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+
+        <template if:true={error}>
+            <div class="slds-text-color_error">{error}</div>
+        </template>
+
+        <template if:false={accounts}>
+            <p>No accounts found.</p>
+        </template>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-controls slds-p-top_medium slds-p-bottom_medium">
+            <lightning-button label="Previous" onclick={previousPage} 
+                              disabled={isPreviousDisabled}></lightning-button>
+            <span class="slds-m-left_small">Page {currentPage} of {totalPages}</span>
+            <lightning-button label="Next" onclick={nextPage} 
+                              disabled={isNextDisabled}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

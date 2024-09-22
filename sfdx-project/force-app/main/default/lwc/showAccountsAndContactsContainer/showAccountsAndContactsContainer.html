@@ -1,0 +1,10 @@
+<template>
+    <div class="container">
+        <div class="account-list">
+            <c-show-accounts-component onaccountselected={handleAccountSelected}></c-show-accounts-component>
+        </div>
+        <div class="contact-list">
+            <c-show-contacts-component account-id={selectedAccountId}></c-show-contacts-component>
+        </div>
+    </div>
+</template>

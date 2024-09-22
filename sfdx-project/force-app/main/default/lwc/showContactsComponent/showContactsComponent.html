@@ -1,0 +1,38 @@
+<template>
+    <lightning-card title="Contacts for Selected Account" icon-name="standard:contact">
+        <template if:true={contacts}>
+            <lightning-layout>
+                <lightning-layout-item padding="around-medium">
+                    <ul class="slds-list_dotted">
+                        <template for:each={contacts} for:item="contact">
+                            <li key={contact.Id}>
+                                <lightning-button variant="base" label={contact.Name} 
+                                                  class="slds-button slds-button_reset">
+                                    <span>{contact.Email}</span>
+                                </lightning-button>
+                            </li>
+                        </template>
+                    </ul>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+
+        <template if:true={error}>
+            <div class="slds-text-color_error">{error}</div>
+        </template>
+
+        <template if:true={accountId}>
+            <template if:false={contacts}>
+                <p>No contacts found for this account.</p>
+            </template>
+        </template>
+
+        <div class="pagination-controls slds-p-top_medium slds-p-bottom_medium">
+            <lightning-button label="Previous" onclick={previousPage} 
+                              disabled={isPreviousDisabled}></lightning-button>
+            <span class="slds-m-left_small">Page {currentPage} of {totalPages}</span>
+            <lightning-button label="Next" onclick={nextPage} 
+                              disabled={isNextDisabled}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

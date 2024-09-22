@@ -1,0 +1,14 @@
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slds-list_dotted {
+  padding: 0;
+  margin: 0;
+}
+
+.slds-button_reset {
+  text-align: left;
+}
