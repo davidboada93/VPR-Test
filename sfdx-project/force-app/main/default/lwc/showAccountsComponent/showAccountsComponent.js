@@ -2,7 +2,7 @@ import { LightningElement, track, wire } from 'lwc';
 import getAccounts from '@salesforce/apex/AccountContactController.getAccounts';
 import getAccountCount from '@salesforce/apex/AccountContactController.getAccountCount';
 
-const PAGE_SIZE = 5; // Number of accounts per page
+const PAGE_SIZE = 5;
 
 export default class ShowAccountsComponent extends LightningElement {
     @track accounts = [];
@@ -34,11 +34,11 @@ export default class ShowAccountsComponent extends LightningElement {
     }
 
     handleAccountClick(event) {
-        const accountId = event.target.dataset.id; // Get the account ID from data attribute
+        const accountId = event.target.dataset.id;
         const accountSelectedEvent = new CustomEvent('accountselected', {
             detail: accountId
         });
-        this.dispatchEvent(accountSelectedEvent); // Dispatch event to parent
+        this.dispatchEvent(accountSelectedEvent);
     }
 
     nextPage() {
