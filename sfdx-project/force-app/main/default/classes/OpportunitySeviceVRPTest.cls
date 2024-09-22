@@ -122,6 +122,41 @@ private class OpportunitySeviceVRPTest {
         Assert.areEqual(true, deleteOpp.getErrors().isEmpty(), 'Expected to not have any errors.');
         Assert.areEqual(accToCheckAfter.TotalSalesRecycledWood__c, accToCheckBefore.TotalSalesRecycledWood__c - oppToClose.Amount, 'Expected the Total Sales for Standard Wood to be correctly updated after the Opprotunity is deleted');
     }
+
+    @isTest
+    static void testUpdateTotalWooodSalesUpdateNegative() {
+        Database.SaveResult updateOpp;
+        Opportunity oppToClose = [SELECT Id, WoodType__c, Amount, StageName FROM Opportunity WHERE Name = 'Test OppStandard' LIMIT 1];
+        oppToClose.WoodType__c = null;
+        oppToClose.StageName = 'Closed Won';
+        
+        Test.startTest();
+        	updateOpp = Database.update(oppToClose, false);
+        Test.stopTest();
+        
+        Account accToCheck = [SELECT Id, TotalSalesRecycledWood__c, TotalSalesStandardWood__c FROM Account WHERE Name = 'Test Account' LIMIT 1];
+        
+        Assert.areEqual(true, updateOpp.getErrors().isEmpty(), 'Expected to not have any errors.');
+        Assert.areEqual(accToCheck.TotalSalesStandardWood__c, null, 'Expected the Total Sales for Standard Wood to not have changed');
+    }
     
+    @isTest
+    static void testUpdateTotalWooodSalesDeleteNegative() {
+        Database.DeleteResult deleteOpp;
+        Account accToCheckBefore = [SELECT Id, TotalSalesRecycledWood__c, TotalSalesStandardWood__c FROM Account WHERE Name = 'Test Account' LIMIT 1];
+        Opportunity oppToClose = [SELECT Id, WoodType__c, Amount, StageName FROM Opportunity WHERE Name = 'Test OppStandard' LIMIT 1];
+        oppToClose.WoodType__c = null;
+        oppToClose.StageName = 'Closed Won';
+        update oppToClose;
+        
+        Test.startTest();
+        	deleteOpp = Database.delete(oppToClose, false);
+        Test.stopTest();
+        
+        Account accToCheckAfter = [SELECT Id, TotalSalesRecycledWood__c, TotalSalesStandardWood__c FROM Account WHERE Name = 'Test Account' LIMIT 1];
+        
+        Assert.areEqual(true, deleteOpp.getErrors().isEmpty(), 'Expected to not have any errors.');
+        Assert.areEqual(accToCheckAfter.TotalSalesStandardWood__c, null, 'Expected the Total Sales for Standard Wood to not have changed');
+    }
 
 }
